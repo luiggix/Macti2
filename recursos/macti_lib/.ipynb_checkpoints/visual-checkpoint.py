@@ -2,8 +2,42 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-mpl.rcParams['figure.titlesize'] = 12
+from cycler import cycler
+
+# Personalización de las gráficas
+grey_label_color = 75/255
+grey_title_color = 25/255
+label_color = [grey_label_color, grey_label_color, grey_label_color]
+title_color = [grey_title_color, grey_title_color, grey_title_color]
+plt.style.use('seaborn-ticks')
+mpl.rcParams['figure.dpi'] = 80
+mpl.rcParams['figure.figsize'] = (6.4, 4.8)
+mpl.rcParams['font.weight'] = 'light'
+mpl.rcParams['axes.facecolor'] = 'whitesmoke'
+mpl.rcParams['axes.edgecolor'] = 'gray'   # axes edge color
+mpl.rcParams['axes.linewidth'] = 0.8     # edge line width
+mpl.rcParams['axes.labelcolor'] = label_color
 mpl.rcParams['axes.labelsize'] = 14
+mpl.rcParams['axes.spines.left'] = True  # display axis spines
+mpl.rcParams['axes.spines.bottom'] = True
+mpl.rcParams['axes.spines.top'] =   False
+mpl.rcParams['axes.spines.right'] = False
+mpl.rcParams['axes.grid'] = True
+mpl.rcParams['axes.titlelocation'] = 'left'
+mpl.rcParams['axes.titlesize'] = 14
+mpl.rcParams['axes.titlecolor'] = title_color
+mpl.rcParams['axes.titley'] = 1.02
+colors = [[0,0,0], 
+          [230/255,159/255,0],
+          [86/255,180/255,233/255], 
+          [0,158/255,115/255],
+          [240/255,228/255,66/255], 
+          [0,114/255,178/255],
+          [213/255,94/255,0], 
+          [204/255,121/255,167/255]
+        ]
+mpl.rcParams['axes.prop_cycle'] = cycler(color=colors)
+mpl.rcParams['lines.linewidth'] = 2
 
 def plotGrid(xm, ym, frame='grid'):
     if frame == 'grid':
@@ -26,7 +60,7 @@ def calcOffset(xg, yg):
     return offx, offy, xg[0,0], xg[-1,0], yg[0,0], yg[0,-1]
 
 def plotMalla(xg, yg, title='', cbar = False, marker='.'):
-    plt.scatter(xg, yg, marker=marker)
+    plt.scatter(xg, yg, marker=marker, c='royalblue')
     x = xg[:,0]
     y = yg[0,:]
     plt.xticks([x[0], x[-1]], labels=[x[0], x[-1]])
