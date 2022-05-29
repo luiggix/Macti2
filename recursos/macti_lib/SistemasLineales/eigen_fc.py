@@ -22,26 +22,32 @@ def f(A,b,x,c):
     return 0.5 * np.dot(x, np.dot(A, xT)) - np.dot(b, xT) + c
 
 def plotEingen(ax, sol, eve, xg, yg, z):
-    cont = ax.contour(xg,yg,z,30,cmap='binary') 
     xorig = [sol[0], sol[0]]
     yorig = [sol[1], sol[1]]
     u = [eve[0][0], eve[0][1]]
     v = [eve[1][0], eve[1][1]]
-    ax.quiver(xorig, yorig, u, v,color='royalblue',scale=10, zorder=5)
+    ax.quiver(xorig, yorig, u, v,color='royalblue',scale=10, label='Eigenvectores', zorder=5)
         
-def plotLinsys(sistema, eig=False):
+def plotLinsys(sistema, zoom=False):
     if sistema == 'Positivo Definido':
-        x = np.linspace(-10,10,10)
+        x = np.linspace(-10,10,20)
         A = np.array([[3,2],[2,6]])
         b = np.array([2,-8])
+    elif sistema == 'Positivo Indefinido':
+        x = np.linspace(-10000,15000,20)
+        A = np.array([[3,2],[6,3.999]])
+        b = np.array([2,-8])
     elif sistema == 'Indefinido':
-        x = np.linspace(0,1500,100)
+        if zoom:
+            x = np.linspace(-10000,10000,30)
+        else:
+            x = np.linspace(0,1500,30)
         A = np.array([[-.1, 1],[-.9, 3]])
         b = np.array([200,60])
-    elif sistema == 'Indefinido (zoom out)':
-        x = np.linspace(-10000,10000,100)
-        A = np.array([[-.1, 1],[-.9, 3]])
-        b = np.array([200,60])
+    # elif sistema == 'Indefinido':
+    #     x = np.linspace(-10000,10000,50)
+    #     A = np.array([[-.1, 1],[-.9, 3]])
+    #     b = np.array([200,60])
     
     # Fórmulas de cada línea
     l1 = -A[0,0] * x / A[0,1] + b[0]/A[0,1]
@@ -51,16 +57,18 @@ def plotLinsys(sistema, eig=False):
     ax1 = fig.add_subplot(1, 2, 1)
     ax2 = fig.add_subplot(1, 2, 2, projection='3d')
 
-    ax1.plot(x, l1, lw = 3.0, label = 'Linea 1')
+    ax1.plot(x, l1, lw = 5.0, label = 'Linea 1')
     ax1.plot(x, l2, lw = 3.0, label = 'Linea 2')
 
     try:
         sol = np.linalg.solve(A,b)
     # Punto de cruce de las líneas rectas
-        ax1.scatter(sol[0], sol[1], fc = 'C3', ec ='k', s = 100, alpha=0.85, zorder=5, label='Solución')
-        ax1.set_title('Cruce de las rectas: ({:5.4}, {:5.4})'.format(sol[0], sol[1]))
-        ax1.vlines(sol[0], 0, sol[1], ls='--', lw=1.0, color='gray')
-        ax1.hlines(sol[1], 0, sol[0], ls='--', lw=1.0, color='gray')
+        if sistema != 'Positivo Indefinido':
+            ax1.scatter(sol[0], sol[1], fc = 'C3', ec ='k', s = 100, 
+                        alpha=0.85, zorder=5, label='Solución')
+            ax1.set_title('Cruce de las rectas: ({:5.4}, {:5.4})'.format(sol[0], sol[1]))
+            ax1.vlines(sol[0], 0, sol[1], ls='--', lw=1.0, color='gray')
+            ax1.hlines(sol[1], 0, sol[0], ls='--', lw=1.0, color='gray')
     except np.linalg.LinAlgError as info:
         print(Fore.RESET + 80*'-')
         print(Fore.RED + 'ERROR: \n {}'.format(info))
@@ -77,26 +85,32 @@ def plotLinsys(sistema, eig=False):
             xe = np.array([xg[i,j],yg[i,j]])
             z[i,j] = f(A,b,xe,0)
             
-    if eig:
-        eva, eve = np.linalg.eig(A)
-        plotEingen(ax1, sol, eve, xg, yg, z)  
+    eva, eve = np.linalg.eig(A)
+#        plotEingen(ax1, sol, eve, xg, yg, z)  
+    ax1.legend(loc='best', bbox_to_anchor=(0.75, 0.5, 0.5, 0.5))
         
-        zsol = f(A,b,sol,0)
-        surf = ax2.plot_surface(xg, yg, z, cmap='coolwarm', alpha=0.5, antialiased=False)
-        ax2.scatter(sol[0], sol[1], zsol, marker='o', color='k')
-        vzsol = [zsol[0] for i in x]
-        ax2.plot(x,l1,vzsol)
-        ax2.plot(x,l2,vzsol)
-        ax2.set_title('Forma cuadrática')
+    cont = ax1.contour(xg,yg,z,30,cmap='binary') 
+    zsol = f(A,b,sol,0)
+    surf = ax2.plot_surface(xg, yg, z, cmap='coolwarm', alpha=0.35, antialiased=False)
+    ax2.scatter(sol[0], sol[1], zsol, marker='o', color='k', s=50)
+    vzsol = [zsol[0] for i in x]
+    ax2.plot(x,l1,vzsol, c='k', lw=3.0)
+    ax2.plot(x,l2,vzsol, lw=3.0)
+    ax2.view_init(20, -40)
+    ax2.set_title('Forma cuadrática $f(x)$')
+#    ax2.set_zlabel('$f(x)$')
 
 
 if __name__ == '__main__':
-    plotLinsys('Positivo Definido', False)
+    
+    plotLinsys('Positivo Indefinido')
+    plt.show()
+    
+    plotLinsys('Positivo Definido')
     plt.show()
 
-    plotLinsys('Indefinido', False)
+    plotLinsys('Indefinido')
     plt.show()
 
-    plotLinsys('Indefinido (zoom out)', True)
+    plotLinsys('Indefinido', True)
     plt.show()
-    x = np.linspace(-10000,10000,100)
