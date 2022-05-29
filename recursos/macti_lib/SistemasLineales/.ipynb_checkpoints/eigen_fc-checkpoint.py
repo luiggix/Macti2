@@ -29,7 +29,20 @@ def plotEingen(ax, sol, eve, xg, yg, z):
     v = [eve[1][0], eve[1][1]]
     ax.quiver(xorig, yorig, u, v,color='royalblue',scale=10, zorder=5)
         
-def plotLinsys(A, b, x, eig=False, surf = False):
+def plotLinsys(sistema, eig=False):
+    if sistema == 'Positivo Definido':
+        x = np.linspace(-10,10,10)
+        A = np.array([[3,2],[2,6]])
+        b = np.array([2,-8])
+    elif sistema == 'Indefinido':
+        x = np.linspace(0,1500,100)
+        A = np.array([[-.1, 1],[-.9, 3]])
+        b = np.array([200,60])
+    elif sistema == 'Indefinido (zoom out)':
+        x = np.linspace(-10000,10000,100)
+        A = np.array([[-.1, 1],[-.9, 3]])
+        b = np.array([200,60])
+    
     # Fórmulas de cada línea
     l1 = -A[0,0] * x / A[0,1] + b[0]/A[0,1]
     l2 = -A[1,0] * x / A[1,1] + b[1]/A[1,1]
@@ -64,31 +77,26 @@ def plotLinsys(A, b, x, eig=False, surf = False):
             xe = np.array([xg[i,j],yg[i,j]])
             z[i,j] = f(A,b,xe,0)
             
-    if surf:
+    if eig:
+        eva, eve = np.linalg.eig(A)
+        plotEingen(ax1, sol, eve, xg, yg, z)  
+        
         zsol = f(A,b,sol,0)
         surf = ax2.plot_surface(xg, yg, z, cmap='coolwarm', alpha=0.5, antialiased=False)
         ax2.scatter(sol[0], sol[1], zsol, marker='o', color='k')
         vzsol = [zsol[0] for i in x]
         ax2.plot(x,l1,vzsol)
         ax2.plot(x,l2,vzsol)
-        
-    if eig:
-        eva, eve = np.linalg.eig(A)
-        plotEingen(ax1, sol, eve, xg, yg, z)  
+        ax2.set_title('Forma cuadrática')
 
 
 if __name__ == '__main__':
-    x = np.linspace(-10,10,10)
-    A = np.array([[3,2],[2,6]])
-    b = np.array([2,-8])
-    plotLinsys(A, b, x, False, True)
+    plotLinsys('Positivo Definido', False)
     plt.show()
 
-    x = np.linspace(-10000,10000,100)
-#    A = np.array([[0.10,-1],[0.30,-1]])
-#    b = np.array([-200,-20])
-    
-    A = np.array([[-.1, 1],[-.9, 3]])
-    b = np.array([200,60])
-    plotLinsys(A, b, x, True, True)
+    plotLinsys('Indefinido', False)
     plt.show()
+
+    plotLinsys('Indefinido (zoom out)', True)
+    plt.show()
+    x = np.linspace(-10000,10000,100)
