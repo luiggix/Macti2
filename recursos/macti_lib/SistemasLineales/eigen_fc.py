@@ -100,6 +100,30 @@ def plotLinsys(sistema, zoom=False):
     ax2.set_title('Forma cuadrática $f(x)$')
 #    ax2.set_zlabel('$f(x)$')
 
+def graficaPasosSolucion(x, l1, l2, xini, A, b, sol, titulo):
+    
+    size_grid = len(x)
+    y = np.linspace(min(min(l1), min(l2)), max(max(l1), max(l2)), size_grid)
+    xg,yg = np.meshgrid(x,y)
+    z = np.zeros((size_grid, size_grid))
+    for i in range(size_grid):
+        for j in range(size_grid):
+            xe = np.array([xg[i,j],yg[i,j]])
+            z[i,j] = f(A,b,xe,0)
+            
+    plt.contour(xg,yg,z,30,cmap='binary') 
+    plt.plot(x,l1,label = '$3x_0+2x_1=2$')
+    plt.plot(x,l2,label = '$2x_0+6x_1=-8$')
+    plt.scatter(xini[0][0], xini[1][0], c='yellow', s=75, alpha=0.95, zorder=5, label='Inicio')
+    plt.scatter(sol[0], sol[1], c='red', s=75, alpha=0.75, zorder=5, label='Solución')
+    plt.plot(xini[0], xini[1], 'k.--', lw=1.0, zorder=6, label='Aproximación')
+    plt.xlabel('$x_0$')
+    plt.ylabel('$x_1$')
+    plt.suptitle('Cruce de rectas', y=1)
+    plt.title(titulo, color='blue')
+    plt.grid(color='white')
+    plt.legend(loc='best', bbox_to_anchor=(0.85, 0.5, 0.5, 0.5))
+
 
 if __name__ == '__main__':
     

@@ -6,6 +6,7 @@ Created on Mon Apr  9 11:26:55 2018
 @author: luiggi
 """
 import numpy as np
+import matplotlib.pyplot as plt
 
 def jacobi(A,b,tol,kmax):
     N = len(b)
@@ -74,6 +75,8 @@ def sor(A,b,tol,kmax,w):
         xold[:] = xnew[:]
 #        print(k, error)
     return xnew, error, k, error_array
+
+
 
 
 if __name__ == '__main__':
