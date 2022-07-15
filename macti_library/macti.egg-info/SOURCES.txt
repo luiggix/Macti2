@@ -1,0 +1,9 @@
+README.md
+setup.py
+macti/__init__.py
+macti/evaluacion.py
+macti/visual.py
+macti.egg-info/PKG-INFO
+macti.egg-info/SOURCES.txt
+macti.egg-info/dependency_links.txt
+macti.egg-info/top_level.txt
