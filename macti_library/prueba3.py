@@ -1,3 +1,6 @@
+import sys
+[print(i) for i in sys.path]
+
 import numpy as np
 import matplotlib.pyplot as plt
 from macti.SistemasLineales import statSolvers

@@ -7,3 +7,10 @@ macti.egg-info/PKG-INFO
 macti.egg-info/SOURCES.txt
 macti.egg-info/dependency_links.txt
 macti.egg-info/top_level.txt
+macti/MetodoEuler/__init__.py
+macti/MetodoEuler/euler.py
+macti/MetodoEuler/partrack.py
+macti/SistemasLineales/__init__.py
+macti/SistemasLineales/eigen_fc.py
+macti/SistemasLineales/statSolvers.py
+macti/SistemasLineales/testSolvers.py
