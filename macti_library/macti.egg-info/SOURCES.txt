@@ -14,3 +14,15 @@ macti/SistemasLineales/__init__.py
 macti/SistemasLineales/eigen_fc.py
 macti/SistemasLineales/statSolvers.py
 macti/SistemasLineales/testSolvers.py
+macti/data/MetodoEuler/sol01.npy
+macti/data/MetodoEuler/sol02.npy
+macti/data/MetodoEuler/sol03.npy
+macti/data/SistemasLineales/sol01.npy
+macti/data/SistemasLineales/sol02.npy
+macti/data/SistemasLineales/sol03.npy
+macti/data/SistemasLineales/sol04.npy
+macti/data/SistemasLineales/sol05.npy
+macti/data/SistemasLineales/sol06.npy
+macti/data/SistemasLineales/sol07.npy
+macti/data/SistemasLineales/sol08.npy
+macti/data/SistemasLineales/sol09.npy

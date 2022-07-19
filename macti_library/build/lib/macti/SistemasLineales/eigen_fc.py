@@ -8,8 +8,8 @@ Created on Mon Apr  9 11:26:55 2018
 #-----------------------------------------------------------
 # Ruta biblioteca macti
 #
-import os, sys
-sys.path.insert(0, os.path.abspath('../../'))
+#import os, sys
+#sys.path.insert(0, os.path.abspath('../../'))
 #print(sys.path)
 #-----------------------------------------------------------
 import numpy as np

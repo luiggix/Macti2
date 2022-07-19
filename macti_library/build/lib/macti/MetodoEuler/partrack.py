@@ -1,14 +1,14 @@
 #-----------------------------------------------------------
 # Ruta biblioteca macti
 #
-import os, sys
-sys.path.insert(0, os.path.abspath('../../'))
+#import os, sys
+#sys.path.insert(0, os.path.abspath('../../'))
 #print(sys.path)
 #-----------------------------------------------------------
 
 import numpy as np
 import matplotlib.pyplot as plt
-from macti_lib.visual import plotFlujo
+from macti.visual import plotFlujo
 
 def solveFlujo(Nt, ht, rango, w, dTray=True):
     # Campo de velocidad

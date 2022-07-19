@@ -2,17 +2,21 @@
 from colorama import Fore
 from nose.tools import assert_equal
 import numpy as np
+import pkg_resources
+
 
 class Evalua():
-    def __init__(self, path):
-        self.path = path
+    def __init__(self, topic):
+        self.topic = topic
         
     def verifica(self, x, i):
         """
         Permite comparar el contenido de x con el de y. Si se encuentra una diferencia entonces emite una alerta.
         """
-        y = np.load(self.path + 'sol{:02d}.npy'.format(i))
 
+        filename = 'data/' + self.topic + '/sol{:02d}.npy'.format(i)
+        stream = pkg_resources.resource_stream('macti', filename)
+        y = np.load(stream)
         try:
             assert_equal(list(x.flatten()), list(y.flatten()))
         except AssertionError as info:
@@ -28,6 +32,6 @@ if __name__ == '__main__':
     PA = 0.10 * x + 200
     PB = 0.35 * x + 20
 
-    d = Evalua('../datos/SistemasLineales/')     
+    d = Evalua('SistemasLineales')     
     d.verifica(PA, 1)
     d.verifica(PB, 2)
